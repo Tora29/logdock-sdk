@@ -1,0 +1,42 @@
+{
+  "name": "@tora29/logdock-client",
+  "version": "1.1.0",
+  "description": "LogDock TypeScript/JavaScript SDK with automatic source code location tracking",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "bin": {
+    "logdock-init": "./scripts/init.js"
+  },
+  "keywords": [
+    "logging",
+    "logdock",
+    "typescript",
+    "nextjs",
+    "monitoring"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tora29/logdock-sdk.git"
+  },
+  "homepage": "https://github.com/Tora29/logdock-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/Tora29/logdock-sdk/issues"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "scripts",
+    "README.md"
+  ]
+}
