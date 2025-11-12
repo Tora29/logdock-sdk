@@ -213,7 +213,18 @@ export class LogDockLogger {
       })
 
       if (!response.ok && this.config.debug) {
-        console.error('[LogDock] Failed to send log:', await response.text())
+        const responseBody = await response.text()
+        console.error('[LogDock] Failed to send log:', {
+          status: response.status,
+          statusText: response.statusText,
+          body: responseBody
+        })
+
+        // Cloudflare Access認証失敗の場合の特別な警告
+        if (response.status === 302 || response.status === 403) {
+          console.error('[LogDock] ⚠️  Cloudflare Access authentication may have failed!')
+          console.error('[LogDock] Please verify CF_ACCESS_CLIENT_ID and CF_ACCESS_CLIENT_SECRET')
+        }
       }
     } catch (error) {
       if (this.config.debug) {
@@ -227,5 +238,15 @@ export class LogDockLogger {
  * 新しいLogDockロガーインスタンスを作成
  */
 export function createLogger(config: LogDockConfig): LogDockLogger {
+  if (config.debug) {
+    console.log('[LogDock Init] Configuration:', {
+      apiUrl: config.apiUrl ? '✓ Set' : '✗ Missing',
+      apiKey: config.apiKey ? `✓ Set (${config.apiKey.substring(0, 8)}...)` : '✗ Missing',
+      app: config.app || '(not set)',
+      cfAccessClientId: config.cfAccessClientId ? '✓ Set' : '✗ Missing',
+      cfAccessClientSecret: config.cfAccessClientSecret ? '✓ Set' : '✗ Missing',
+      debug: config.debug,
+    })
+  }
   return new LogDockLogger(config)
 }
